@@ -1,18 +1,18 @@
-## P2P-CI-System
-#CSC 573 – Internet Protocols
-#Project #1
-Spring 2016
-#Project Objectives
+# P2P-CI-System
+##CSC 573 – Internet Protocols
+##Project #1
+##Spring 2016
+###Project Objectives
 In this project, you will implement a simple peer-to-peer (P2P) system with a centralized index (CI). Although this
 P2P-CI system is rather elementary, in the process I expect that you will develop a good understanding of P2P and
 client-server systems and build a number of fundamental skills related to writing Internet applications, including:
-• becoming familiar with network programming and the socket interface,
-• creating server processes that wait for connections,
-• creating client processes that contact a well-known server and exchange data over the Internet,
-• defining a simple application protocol and making sure that peers and server follow precisely the
-specifications for their side of the protocol in order to accomplish particular tasks,
-• creating and managing a centralized index at the server based on information provided by the peers, and
-• implementing a concurrent server that is capable of carrying out communication with multiple clients
+
+* becoming familiar with network programming and the socket interface,
+* creating server processes that wait for connections,
+* creating client processes that contact a well-known server and exchange data over the Internet,
+* defining a simple application protocol and making sure that peers and server follow precisely the specifications for their side of the protocol in order to accomplish particular tasks,
+* creating and managing a centralized index at the server based on information provided by the peers, and
+* implementing a concurrent server that is capable of carrying out communication with multiple clients
 simultaneously.
 Peer-to-Peer with Centralized Index (P2P-CI) System for Downloading RFCs
 Internet protocol standards are defined in documents called “Requests for Comments” (RFCs). RFCs are available
@@ -38,14 +38,14 @@ not known in advance to any of the peers. When a peer A needs to download an RFC
 opens a connection to the upload port of peer B, provides the RFC number to B, and B responds by sending
 the (text) file containing the RFC to A over the same connection; once the file transmission is completed,
 the connection is closed.
-#The Server
+###The Server
 The server waits for connections from the peers on the well-known port 7734. The server maintains two data
 structures: a list with information about the currently active peers and the index of RFCs available at each peer. For
 simplicity, you will implement both these structures as linked lists; while such an implementation is obviously not
 scalable to very large number of peers and/or RFCs, it will do for this project.
 Each item of the linked list of peers contains two elements:
-1. the hostname of the peer (of type string), and
-2. the port number (of type integer) to which the upload server of this peer is listening. 
+- the hostname of the peer (of type string), and
+- the port number (of type integer) to which the upload server of this peer is listening. 
 Each item of the linked list representing the index of RFCs contains these elements:
 • the RFC number (of type integer),
 • the title of the RFC (of type string), and
@@ -63,7 +63,7 @@ and then listens to the well-known port 7734. When a connection from a peer is r
 new process that handles all communication with this peer. In particular, this process receives the information from
 the peer and updates the peer list and index, and it also returns any information requested by the peer. When the peer
 closes the connection, this process removes all records associated with the peer and then terminates.1
-#The Peers
+###The Peers
 When a peer wishes to join the system, it first instantiates an upload server process listening to any available local
 port. It then creates a connection to the server at the well-known port 7734 and passes information about itself and
 its RFCs to the server, as we describe shortly. It keeps this connection open until it leaves the system. The peer may
@@ -71,7 +71,7 @@ send requests to the server over this open connection and receive responses (e.g
 server containing a particular RFC). When it wishes to download an RFC, it opens a connection to a remote peer at
 the specified upload port, requests the RFC, receives the file and stores it locally, and the closes this download
 connection to the peer.
-#The Application Layer Protocol: P2P
+###The Application Layer Protocol: P2P
 The protocol used to download files among peers is a simplified version of the HTTP protocol we discussed in class.
 Suppose that peer A wishes to download RFC 1234 from peer B running at host somehost.csc.ncsu.edu.
 Then, A sends to B a request message formatted as follows, where <sp> denotes “space,” <cr> denotes
@@ -110,7 +110,7 @@ Last-Modified: Thu, 21 Jan 2001 9:23:46 GMT
 Content-Length: 12345
 Content-Type: text/text
 (data data data ...)
-#Application Layer Protocol: P2S
+###Application Layer Protocol: P2S
 The protocol used between a peer and the server is also a request-response protocol, where requests are initiated by
 peers. The format of a request message is as follows:
 method <sp> RFC number <sp> version <cr> <lf>
