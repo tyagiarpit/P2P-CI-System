@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import csc573.client.ClientRequestProcessor;
+import csc573.peer.PeerRequestProcessor;
 import csc573.server.ServerRequestProcessor;
 
 public class ConnectionThread implements Runnable {
@@ -31,7 +31,7 @@ public class ConnectionThread implements Runnable {
             if(Start.isServer)
             	response = ServerRequestProcessor.process(request);
             else
-            	response = ClientRequestProcessor.process(request);
+            	response = PeerRequestProcessor.process(request);
             	
             output.write(response.getBytes());
             

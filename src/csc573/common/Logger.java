@@ -3,6 +3,7 @@ package csc573.common;
 import java.io.PrintStream;
 
 public class Logger {
+	public static boolean LOGGING = false;
 	private static final String ERROR 	= "[ERROR] ";  
 	private static final String INFO 	= "[INFO]  ";  
 	private static final String DEBUG 	= "[DEBUG] ";  
@@ -14,7 +15,8 @@ public class Logger {
 		out = stream;
 	}
 	private synchronized static void log(String message){
-		out.println(message);
+		if(LOGGING)
+			out.println(message);
 	}
 	public static void debug(String message){
 		log(DEBUG+message);
@@ -27,6 +29,7 @@ public class Logger {
 	}
 	public synchronized static void error(Exception e){
 		log(ERROR+e.getMessage());
-		e.printStackTrace(out);
+		if(LOGGING)
+			e.printStackTrace(out);
 	}
 }

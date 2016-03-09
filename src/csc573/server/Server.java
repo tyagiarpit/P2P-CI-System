@@ -12,12 +12,6 @@ public class Server {
 	private static int port;
 	private static ServerSocket serverSocket = null;
     private static boolean killed = false;
-	private static int requestCounter = 0;
-	
-	public static synchronized int requestNumber(){
-		requestCounter++;
-		return requestCounter;
-	}
 	
 	public void stop() {
 		killed = true;
