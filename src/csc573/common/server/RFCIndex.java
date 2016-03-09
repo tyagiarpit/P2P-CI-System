@@ -28,4 +28,21 @@ public class RFCIndex {
 		}
 	}
 	
+	public static String listAll(){
+		StringBuffer buffer = new StringBuffer();
+		for (RFCEntry entry : RFCEntries) {
+			buffer.append("RFC "+entry.getNumber()+" "+entry.getTitle()+" "+entry.getHostname()+" "+PeerList.lookup(entry.getHostname()).getPort()+"\r\n");
+		}
+		return buffer.toString();
+	}
+	
+	public static String listAllWithNumber(int number){
+		StringBuffer buffer = new StringBuffer();
+		for (RFCEntry entry : RFCEntries) {
+			if(entry.getNumber()==number)
+				buffer.append("RFC "+entry.getNumber()+" "+entry.getTitle()+" "+entry.getHostname()+" "+PeerList.lookup(entry.getHostname()).getPort()+"\r\n");
+		}
+		return buffer.toString();
+	}
+	
 }

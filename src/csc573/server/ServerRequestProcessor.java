@@ -11,18 +11,27 @@ import csc573.common.server.RFCIndex;
 public class ServerRequestProcessor {
 
 	public static String process(String request) {
-		String[] lines = request.split("\r\n");
+		String[] lines = null;
+		if(request.indexOf("\r\n")>-1)
+			lines = request.split("\r\n");
+		else if(request.indexOf("\n")>-1)
+			lines = request.split("\n");
+		else if(request.indexOf("\r")>-1)
+			lines = request.split("\r");
+		else
+			lines = request.split("");
+		
 		String[] words = lines[0].split(" ");
 		if(!Properties.P2S_VALID_METHOD.contains(words[0]))
 			return getErrorResponse(400);
 		else if(words[0].equals("ADD")){
-			processAddRequest(lines,words);
+			return processAddRequest(lines,words);
 		}
 		else if(words[0].equals("LIST")){
-			processListRequest(lines,words);
+			return processListRequest(lines,words);
 		}
 		else if(words[0].equals("LOOKUP")){
-			processLookupRequest(lines,words);
+			return processLookupRequest(lines,words);
 		}
 
 		return getErrorResponse(400);
@@ -40,7 +49,7 @@ public class ServerRequestProcessor {
 				put(505,"P2P-CI Version Not Supported ");
 			}};
 
-			return Properties.VERSION+" "+errorCode+" "+errorCodeMap.get(errorCode);
+			return Properties.VERSION+" "+errorCode+" "+errorCodeMap.get(errorCode)+"\r\n";
 	}
 
 	private static String processAddRequest(String[] lines, String[] words){
@@ -59,7 +68,7 @@ public class ServerRequestProcessor {
 			String hostname = null;
 			int port = 0;
 			String title = null;
-			if(lines.length!=4)
+			if(lines.length<4)
 				return getErrorResponse(400);
 			else{
 				for(int i = 1;i<lines.length;i++){
@@ -75,12 +84,12 @@ public class ServerRequestProcessor {
 					else if(line.startsWith("Title:")){
 						title = line.substring(6).trim();
 					}
-					else
+					else if(line.trim().length()>0)
 						return getErrorResponse(400);
 				}
 				PeerList.addPeer(hostname, port);
 				RFCIndex.addRFCEntry(new RFCEntry(RFCNumber, title, hostname));
-				return "200 OK "+Properties.VERSION;
+				return Properties.VERSION+" 200 OK\r\n";
 			}
 
 		}
@@ -98,11 +107,12 @@ public class ServerRequestProcessor {
 		else if(!words[3].startsWith("P2P-CI"))
 			return getErrorResponse(400);
 		else{
+			//Request line is fine..
 			int RFCNumber = Helper.toInt(words[2]);
 			String hostname = null;
 			int port = 0;
 			String title = null;
-			if(lines.length!=4)
+			if(lines.length<4)
 				return getErrorResponse(400);
 			else{
 				for(int i = 1;i<lines.length;i++){
@@ -118,34 +128,32 @@ public class ServerRequestProcessor {
 					else if(line.startsWith("Title:")){
 						title = line.substring(6).trim();
 					}
-					else
+					else if(line.trim().length()>0)
 						return getErrorResponse(400);
 				}
 				PeerList.addPeer(hostname, port);
-				RFCIndex.addRFCEntry(new RFCEntry(RFCNumber, title, hostname));
-				return "200 OK "+Properties.VERSION;
+				StringBuffer responseBuffer = new StringBuffer();
+				responseBuffer.append(Properties.VERSION+" 200 OK\r\n");
+				responseBuffer.append(RFCIndex.listAllWithNumber(RFCNumber));
+				return responseBuffer.toString();
 			}
 
 		}
 	}
 	
 	private static String processListRequest(String[] lines, String[] words){
-		if(words.length!=4)
+		if(words.length!=3)
 			return getErrorResponse(400);
-		else if(!words[1].equals("RFC"))
+		else if(!words[1].equals("ALL"))
 			return getErrorResponse(400);
-		else if(Helper.toInt(words[2])==-1)
-			return getErrorResponse(400);
-		else if(words[3].startsWith("P2P-CI/")&&!words[3].endsWith("1.0"))
+		else if(words[2].startsWith("P2P-CI/")&&!words[2].endsWith("1.0"))
 			return getErrorResponse(505);
-		else if(!words[3].startsWith("P2P-CI"))
+		else if(!words[2].startsWith("P2P-CI"))
 			return getErrorResponse(400);
 		else{
-			int RFCNumber = Helper.toInt(words[2]);
 			String hostname = null;
 			int port = 0;
-			String title = null;
-			if(lines.length!=4)
+			if(lines.length<3)
 				return getErrorResponse(400);
 			else{
 				for(int i = 1;i<lines.length;i++){
@@ -158,15 +166,14 @@ public class ServerRequestProcessor {
 						if(port==-1)
 							return getErrorResponse(400);
 					}
-					else if(line.startsWith("Title:")){
-						title = line.substring(6).trim();
-					}
-					else
+					else if(line.trim().length()>0)
 						return getErrorResponse(400);
 				}
 				PeerList.addPeer(hostname, port);
-				RFCIndex.addRFCEntry(new RFCEntry(RFCNumber, title, hostname));
-				return "200 OK "+Properties.VERSION;
+				StringBuffer responseBuffer = new StringBuffer();
+				responseBuffer.append(Properties.VERSION+" 200 OK\r\n");
+				responseBuffer.append(RFCIndex.listAll());
+				return responseBuffer.toString();
 			}
 
 		}

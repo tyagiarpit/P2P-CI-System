@@ -15,7 +15,7 @@ public class PeerList {
 		}
 	}
 	
-	private static synchronized Peer lookup(String hostName){
+	public static synchronized Peer lookup(String hostName){
 		for (Peer peer : peers) {
 			if(peer.getHostname().equalsIgnoreCase(hostName))
 				return peer;
