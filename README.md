@@ -21,19 +21,19 @@ downloading RFCs, you will build a P2P-CI system in which peers who wish to down
 have in their hard drive, may download it from another active peer who does. All communication among peers or
 between a peer and the server will take place over TCP. Specifically, the P2P-CI system will operate as follows;
 additional details on each component of the system will be provided shortly.
-• There is a centralized server, running on a well-known host and listening on a well-known port, which
+* There is a centralized server, running on a well-known host and listening on a well-known port, which
 keeps information about the active peers and maintains an index of the RFCs available at each active peer.
-• When a peer decides to join the P2P-CI system, it opens a connection to the server to register itself and
+* When a peer decides to join the P2P-CI system, it opens a connection to the server to register itself and
 provide information about the RFCs that it makes available to other peers. This connection remains open as
 long as the peer remains active; the peer closes the connection when it leaves the system (becomes
 inactive).
-• Since the server may have connections open to multiple peers simultaneously, it spawns a new process to
+* Since the server may have connections open to multiple peers simultaneously, it spawns a new process to
 handle the communication to each new peer.
-• When a peer wishes to download a specific RFC, it provides the RFC number to the server over the open
+* When a peer wishes to download a specific RFC, it provides the RFC number to the server over the open
 connection, and in response the server provides the peer with a list of other peers who have the RFC; if no
 such active peer exists, an appropriate message is transmitted to the requesting peer. Additionally, each
 peer may at any point query the server to obtain the whole index of RFCs available at all other active peers.
-• Each peer runs a upload server process that listens on a port specific to the peer ; in other words, this port is
+* Each peer runs a upload server process that listens on a port specific to the peer ; in other words, this port is
 not known in advance to any of the peers. When a peer A needs to download an RFC from a peer B, it
 opens a connection to the upload port of peer B, provides the RFC number to B, and B responds by sending
 the (text) file containing the RFC to A over the same connection; once the file transmission is completed,
@@ -44,12 +44,12 @@ structures: a list with information about the currently active peers and the ind
 simplicity, you will implement both these structures as linked lists; while such an implementation is obviously not
 scalable to very large number of peers and/or RFCs, it will do for this project.
 Each item of the linked list of peers contains two elements:
-- the hostname of the peer (of type string), and
-- the port number (of type integer) to which the upload server of this peer is listening. 
+1. the hostname of the peer (of type string), and
+2. the port number (of type integer) to which the upload server of this peer is listening. 
 Each item of the linked list representing the index of RFCs contains these elements:
-• the RFC number (of type integer),
-• the title of the RFC (of type string), and
-• the hostname of the peer containing the RFC (of type string).
+1. the RFC number (of type integer),
+2. the title of the RFC (of type string), and
+3. the hostname of the peer containing the RFC (of type string).
 Note that the index may contain multiple records of a given RFC, one record for each peer that contains the RFC.
 Initially (i.e., when the server starts up), both linked lists are empty (do not contain any records). The linked lists are
 updated as peers join and leave the system. When a peer joins the system, it provides its hostname and upload port to
@@ -95,10 +95,10 @@ header field name <sp> value <cr> <lf>
 <cr> <lf>
 data
 Four status codes and corresponding phrases are defined:
-• 200 OK
-• 400 Bad Request
-• 404 Not Found
-• 505 P2P-CI Version Not Supported
+* 200 OK
+* 400 Bad Request
+* 404 Not Found
+* 505 P2P-CI Version Not Supported
 Five header fields are defined: Date (the date the response was sent), OS (operating system of responding host),
 Last-Modified (the date/time the file was last modified), Content-Length (the length of the file in bytes),
 and Content-Type (always text/plain for this project).
@@ -118,13 +118,13 @@ header field name <sp> value <cr> <lf>
 header field name <sp> value <cr> <lf>
 <cr> <lf>
 There are three methods:
-• ADD, to add a locally available RFC to the server’s index,
-• LOOKUP, to find peers that have the specified RFC, and
-• LIST, to request the whole index of RFCs from the server.
+* ADD, to add a locally available RFC to the server’s index,
+* LOOKUP, to find peers that have the specified RFC, and
+* LIST, to request the whole index of RFCs from the server.
 Also, three header fields are defined:
-• Host: the hostname of the host sending the request,
-• Port: the port to which the upload server of the host is attached, and
-• Title: the title of the RFC
+* Host: the hostname of the host sending the request,
+* Port: the port to which the upload server of the host is attached, and
+* Title: the title of the RFC
 For instance, peer thishost.csc.ncsu.edu who has two RFCs, RFC 123 and RFC 2345 locally available
 and whose upload port is 5678 would first transmit the following two requests to the server:
 ADD RFC 123 P2P-CI/1.0
