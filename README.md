@@ -45,11 +45,13 @@ simplicity, you will implement both these structures as linked lists; while such
 scalable to very large number of peers and/or RFCs, it will do for this project.
 Each item of the linked list of peers contains two elements:
 1. the hostname of the peer (of type string), and
-2. the port number (of type integer) to which the upload server of this peer is listening. 
+2. the port number (of type integer) to which the upload server of this peer is listening.
+
 Each item of the linked list representing the index of RFCs contains these elements:
 1. the RFC number (of type integer),
 2. the title of the RFC (of type string), and
 3. the hostname of the peer containing the RFC (of type string).
+
 Note that the index may contain multiple records of a given RFC, one record for each peer that contains the RFC.
 Initially (i.e., when the server starts up), both linked lists are empty (do not contain any records). The linked lists are
 updated as peers join and leave the system. When a peer joins the system, it provides its hostname and upload port to
@@ -62,8 +64,10 @@ simultaneous connections from peers. To this end, it has a main process that ini
 and then listens to the well-known port 7734. When a connection from a peer is received, the main process spawns a
 new process that handles all communication with this peer. In particular, this process receives the information from
 the peer and updates the peer list and index, and it also returns any information requested by the peer. When the peer
-closes the connection, this process removes all records associated with the peer and then terminates.1
+closes the connection, this process removes all records associated with the peer and then terminates.
+
 ###The Peers
+
 When a peer wishes to join the system, it first instantiates an upload server process listening to any available local
 port. It then creates a connection to the server at the well-known port 7734 and passes information about itself and
 its RFCs to the server, as we describe shortly. It keeps this connection open until it leaves the system. The peer may
@@ -71,7 +75,9 @@ send requests to the server over this open connection and receive responses (e.g
 server containing a particular RFC). When it wishes to download an RFC, it opens a connection to a remote peer at
 the specified upload port, requests the RFC, receives the file and stores it locally, and the closes this download
 connection to the peer.
+
 ###The Application Layer Protocol: P2P
+
 The protocol used to download files among peers is a simplified version of the HTTP protocol we discussed in class.
 Suppose that peer A wishes to download RFC 1234 from peer B running at host somehost.csc.ncsu.edu.
 Then, A sends to B a request message formatted as follows, where <sp> denotes “space,” <cr> denotes
@@ -99,6 +105,7 @@ Four status codes and corresponding phrases are defined:
 * 400 Bad Request
 * 404 Not Found
 * 505 P2P-CI Version Not Supported
+
 Five header fields are defined: Date (the date the response was sent), OS (operating system of responding host),
 Last-Modified (the date/time the file was last modified), Content-Length (the length of the file in bytes),
 and Content-Type (always text/plain for this project).
@@ -121,10 +128,12 @@ There are three methods:
 * ADD, to add a locally available RFC to the server’s index,
 * LOOKUP, to find peers that have the specified RFC, and
 * LIST, to request the whole index of RFCs from the server.
+
 Also, three header fields are defined:
 * Host: the hostname of the host sending the request,
 * Port: the port to which the upload server of the host is attached, and
 * Title: the title of the RFC
+
 For instance, peer thishost.csc.ncsu.edu who has two RFCs, RFC 123 and RFC 2345 locally available
 and whose upload port is 5678 would first transmit the following two requests to the server:
 ADD RFC 123 P2P-CI/1.0
