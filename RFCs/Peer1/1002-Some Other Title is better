@@ -1,0 +1,20 @@
+Compiling unreachable v0.0.2
+   Compiling debug_unreachable v0.0.6
+   Compiling encoding-index-japanese v1.20141219.5
+   Compiling gleam v0.2.6
+   Compiling unicode-bidi v0.2.3
+   Compiling mac v0.0.2
+   Compiling futf v0.1.1
+   Compiling rustc-serialize v0.3.16
+   Compiling leak v0.1.1
+   Compiling leaky-cow v0.1.1
+   Compiling openssl-sys v0.7.1
+   Compiling malloc_buf v0.0.6
+   Compiling objc v0.1.8
+   Compiling core-foundation v0.2.0
+   Compiling mozjs_sys v0.0.0 (https://github.com/servo/mozjs#5ac99916)
+   Compiling smallvec v0.1.5
+   Compiling inflate v0.1.0
+   Compiling objc_id v0.0.2
+   Compiling aster v0.13.1
+   Compiling quasi_codegen v0.7.0

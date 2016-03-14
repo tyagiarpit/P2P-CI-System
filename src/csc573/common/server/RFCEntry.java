@@ -4,12 +4,14 @@ public class RFCEntry {
 	private int number;
 	private String title;
 	private String hostname;
+	private int port;
 	
-	public RFCEntry(int number, String title, String hostname) {
+	public RFCEntry(int number, String title, String hostname, int port) {
 		super();
 		this.number = number;
 		this.title = title;
 		this.hostname = hostname;
+		this.port = port;
 	}
 
 	public int getNumber() {
@@ -36,8 +38,16 @@ public class RFCEntry {
 		this.hostname = hostname;
 	}
 	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 	public String toString(){
-		return "RFC "+number+" "+title+" "+hostname;
+		return "RFC "+number+" "+title+" "+hostname+ " "+port;
 	}
 	
 }

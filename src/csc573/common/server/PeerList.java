@@ -1,36 +1,40 @@
 package csc573.common.server;
 
-import java.util.LinkedList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class PeerList {
-	private static final LinkedList<Peer> peers = new LinkedList<Peer>();
+	private static final LinkedBlockingQueue<Peer> peers = new LinkedBlockingQueue<Peer>();
 	
-	public static synchronized void addPeer(String hostname, int port){
-		Peer peer = lookup(hostname);
-		if(peer!=null)
-			peer.setPort(port);
-		else{
+	public static void addPeer(String hostname, int port){
+		Peer peer = lookup(hostname,port);
+		if(peer==null)
+		{
 			peer = new Peer(hostname,port);
 			peers.add(peer);
 		}
 	}
 	
-	public static synchronized Peer lookup(String hostName){
+	public static Peer lookup(String hostName, int port){
 		for (Peer peer : peers) {
-			if(peer.getHostname().equalsIgnoreCase(hostName))
+			if(peer.getHostname().equalsIgnoreCase(hostName) && peer.getPort()==port)
 				return peer;
 		}
 		return null;
 	}
 	
 	
-	public synchronized void removePeer(String hostName){
-		Peer temp = null;
+	public static void removePeers(String hostName){
 		for (Peer peer : peers) {
 			if(peer.getHostname().equalsIgnoreCase(hostName))
-				temp = peer;
+				peers.remove(peer);
 		}
-		peers.remove(temp);
+	}
+	
+	public static void removePeer(String hostName, int port){
+		for (Peer peer : peers) {
+			if(peer.getHostname().equalsIgnoreCase(hostName) && peer.getPort() == port)
+				peers.remove(peer);
+		}
 	}
 	
 	public static void display(){

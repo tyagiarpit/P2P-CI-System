@@ -1,5 +1,10 @@
 package csc573.peer;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import csc573.common.Helper;
@@ -85,13 +90,29 @@ public class PeerRequestProcessor {
 
 	private static String getRFCResponse(RFC rfc) {
 		StringBuffer responseBuffer = new StringBuffer();
+		File file = new File(Peer.path+File.separator+rfc.getNumber()+"-"+rfc.getTitle());
+		if(!file.exists())
+			return getErrorResponse(404);
+		
+		byte[] data;
+		try {
+			data = Files.readAllBytes(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return getErrorResponse(404);
+		}
+		String content = new String(data);
+		//Date: Wed, 12 Feb 2009 15:12:05 GMT 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z");
+		String date = dateFormat.format(new Date());
+		String modifiedDate = dateFormat.format(new Date(file.lastModified()));
 		responseBuffer.append(Properties.VERSION+" 200 OK\r\n");
-		responseBuffer.append("Date: \r\n");
-		responseBuffer.append("OS: \r\n");
-		responseBuffer.append("Last Modified: \r\n");
-		responseBuffer.append("Content-Length: \r\n");
+		responseBuffer.append("Date: "+date+"\r\n");
+		responseBuffer.append("OS: "+Peer.os+"\r\n");
+		responseBuffer.append("Last Modified: "+modifiedDate+"\r\n");
+		responseBuffer.append("Content-Length: "+content.length()+"\r\n");
 		responseBuffer.append("Content-Type: text/text\r\n");
-		responseBuffer.append(rfc.getContent());
+		responseBuffer.append(content);
 		return responseBuffer.toString();
 	}
 	

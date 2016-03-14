@@ -1,25 +1,23 @@
 package csc573.common.server;
 
-import java.util.LinkedList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class RFCIndex {
-	private static final LinkedList<RFCEntry> RFCEntries = new LinkedList<RFCEntry>();
+	private static final LinkedBlockingQueue<RFCEntry> RFCEntries = new LinkedBlockingQueue<RFCEntry>();
 	
-	public static synchronized void addRFCEntry(RFCEntry entry){
+	public static void addRFCEntry(RFCEntry entry){
 		RFCEntries.add(entry);
 	}
 	
-	public static synchronized void removeRFCEntry(RFCEntry entry){
+	public static void removeRFCEntry(RFCEntry entry){
 		RFCEntries.remove(entry);
 	}
 	
-	public static synchronized void removePeer(int rfcNumber, String hostName){
-		RFCEntry temp = null;
+	public static void removePeerEntries(String hostName, int port){
 		for (RFCEntry entry : RFCEntries) {
-			if(entry.getNumber()==rfcNumber && entry.getHostname().contentEquals(hostName))
-				temp = entry;
+			if(entry.getPort() == port && entry.getHostname().equals(hostName))
+				RFCEntries.remove(entry);
 		}
-		RFCEntries.remove(temp);
 	}
 	
 	public static void display(){
@@ -31,7 +29,7 @@ public class RFCIndex {
 	public static String listAll(){
 		StringBuffer buffer = new StringBuffer();
 		for (RFCEntry entry : RFCEntries) {
-			buffer.append("RFC "+entry.getNumber()+" "+entry.getTitle()+" "+entry.getHostname()+" "+PeerList.lookup(entry.getHostname()).getPort()+"\r\n");
+			buffer.append("RFC "+entry.getNumber()+" "+entry.getTitle()+" "+entry.getHostname()+" "+entry.getPort()+"\r\n");
 		}
 		return buffer.toString();
 	}
@@ -40,7 +38,7 @@ public class RFCIndex {
 		StringBuffer buffer = new StringBuffer();
 		for (RFCEntry entry : RFCEntries) {
 			if(entry.getNumber()==number)
-				buffer.append("RFC "+entry.getNumber()+" "+entry.getTitle()+" "+entry.getHostname()+" "+PeerList.lookup(entry.getHostname()).getPort()+"\r\n");
+				buffer.append("RFC "+entry.getNumber()+" "+entry.getTitle()+" "+entry.getHostname()+" "+entry.getPort()+"\r\n");
 		}
 		return buffer.toString();
 	}

@@ -9,7 +9,51 @@ import csc573.common.server.RFCEntry;
 import csc573.common.server.RFCIndex;
 
 public class ServerRequestProcessor {
-
+	
+	public static String getHostName(String request) {
+		String[] lines = null;
+		if(request.indexOf("\r\n")>-1)
+			lines = request.split("\r\n");
+		else if(request.indexOf("\n")>-1)
+			lines = request.split("\n");
+		else if(request.indexOf("\r")>-1)
+			lines = request.split("\r");
+		else
+			lines = request.split("");
+		
+		String hostname = null;
+		
+		for(int i = 0;i<lines.length;i++){
+			String line = lines[i];
+			if(line.startsWith("Host:")){
+				hostname = line.substring(5).trim();
+				break;
+			}
+		}
+		return hostname;
+	}
+	public static int getPort(String request) {
+		String[] lines = null;
+		if(request.indexOf("\r\n")>-1)
+			lines = request.split("\r\n");
+		else if(request.indexOf("\n")>-1)
+			lines = request.split("\n");
+		else if(request.indexOf("\r")>-1)
+			lines = request.split("\r");
+		else
+			lines = request.split("");
+		
+		int port = 0;
+		
+		for(int i = 0;i<lines.length;i++){
+			String line = lines[i];
+			if(line.startsWith("Port:")){
+				port = Helper.toInt(line.substring(5).trim());
+			}
+		}
+		return port;
+	}
+	
 	public static String process(String request) {
 		String[] lines = null;
 		if(request.indexOf("\r\n")>-1)
@@ -88,7 +132,7 @@ public class ServerRequestProcessor {
 						return getErrorResponse(400);
 				}
 				PeerList.addPeer(hostname, port);
-				RFCIndex.addRFCEntry(new RFCEntry(RFCNumber, title, hostname));
+				RFCIndex.addRFCEntry(new RFCEntry(RFCNumber, title, hostname, port));
 				return Properties.VERSION+" 200 OK\r\n";
 			}
 

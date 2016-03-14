@@ -3,7 +3,7 @@ package csc573.common.peer;
 import java.util.LinkedList;
 
 public class RFCList {
-private static final LinkedList<RFC> RFCEntries = new LinkedList<RFC>();
+	public static final LinkedList<RFC> RFCEntries = new LinkedList<RFC>();
 	
 	public static synchronized void addRFC(RFC entry){
 		RFCEntries.add(entry);

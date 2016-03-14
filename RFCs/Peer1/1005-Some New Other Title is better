@@ -1,0 +1,16 @@
+^CArpits-MacBook-Air:bin Xeon$ 
+Arpits-MacBook-Air:bin Xeon$ 
+Arpits-MacBook-Air:bin Xeon$ cd ../
+.DS_Store   .git/       .project    README.md   bin/        
+.classpath  .gitignore  .settings/  RFCs/       src/        
+Arpits-MacBook-Air:bin Xeon$ cd ../R
+README.md  RFCs/      
+Arpits-MacBook-Air:bin Xeon$ cd ../RFCs/Peer1/
+Arpits-MacBook-Air:Peer1 Xeon$ touch "1001-Some Title is better"
+Arpits-MacBook-Air:Peer1 Xeon$ touch "1002-Some Other Title is better"
+Arpits-MacBook-Air:Peer1 Xeon$ touch "1005-Some New Other Title is better"
+Arpits-MacBook-Air:Peer1 Xeon$ cd ../Peer2
+Arpits-MacBook-Air:Peer2 Xeon$ touch "1003-3 Title-3 is better"
+Arpits-MacBook-Air:Peer2 Xeon$ touch "1002-Some Other Title is better"
+Arpits-MacBook-Air:Peer2 Xeon$ 
+Arpits-MacBook-Air:Peer2 Xeon$ 
