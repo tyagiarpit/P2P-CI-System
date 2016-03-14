@@ -31,7 +31,9 @@ public class ConnectionThread implements Runnable {
 				input.read(buffer);
 
 				String request = new String(buffer);
-
+				
+				System.out.println("\n\n"+request+"\n\n");
+				
 				String response = null;
 				if(Start.isServer){
 					response = ServerRequestProcessor.process(request);
