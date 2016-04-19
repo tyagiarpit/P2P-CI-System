@@ -206,12 +206,15 @@ Note: the peer should print the responses it receives from the server to the sta
 ####Compiling
 Source files are availabe in src folder which can be compiled by running javac. Output classes should be placed under bin directory.
 Alternatively, Compile.sh can be run to compile the files.
+
 ./Compile.sh
 before running any of the shell files, use "chmod 744 *.sh" to make these files executable
 
 To Run Server, run following shell script
+
 ./Server.sh
 
 To start a peer, run following command
+
 ./Client.sh &lt;Server's host name&gt; &lt;Server's port&gt; &lt;RFC Store directory&gt;
 
