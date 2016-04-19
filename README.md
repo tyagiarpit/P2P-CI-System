@@ -136,38 +136,67 @@ Also, three header fields are defined:
 
 For instance, peer thishost.csc.ncsu.edu who has two RFCs, RFC 123 and RFC 2345 locally available
 and whose upload port is 5678 would first transmit the following two requests to the server:
+
 ADD RFC 123 P2P-CI/1.0
+
 Host: thishost.csc.ncsu.edu
+
 Port: 5678
+
 Title: A Proferred Official ICP
+
 ADD RFC 2345 P2P-CI/1.0 
+
 Host: thishost.csc.ncsu.edu
+
 Port: 5678
+
 Title: Domain Names and Company Name Retrieval
+
 Once a peer downloads a new RFC from another peer, it may transmit a ADD request to add a new record into the
 server’s index. A lookup request from this host would like this:
+
 LOOKUP RFC 3457 P2P-CI/1.0
+
 Host: thishost.csc.ncsu.edu
+
 Port: 5678
+
 Title: Requirements for IPsec Remote Access Scenarios
+
 while a list request would be:
+
 LIST ALL P2P-CI/1.0
+
 Host: thishost.csc.ncsu.edu
+
 Port: 5678
+
 The response message from the server is formatted as follows, where the status code and corresponding phrase are
 the same as defined above.
+
 version <sp> status code <sp> phrase <cr> <lf>
+
 <cr> <lf>
+
 RFC number <sp> RFC title <sp> hostname <sp> upload port number<cr><lf>
+
 RFC number <sp> RFC title <sp> hostname <sp> upload port number<cr><lf>
+
 ...
+
 <cr><lf>
+
 In other words, the data part of the response lists one RFC per line, along with the information about the host
 containing the RFC. The response to an ADD simply echoes back the information provided by the host:
+
 P2P-CI/1.0 200 OK
+
 RFC 123 A Proferred Official ICP thishost.csc.ncsu.edu 5678
+
 The response to a LOOKUP may contain multiple lines for a given RFC, each line containing information about a
 different peer having the RFC. Finally, the response to a LIST lists all the records in the server’s database, one per
 line. If the request contains an error or the requested RFC is not found in the index, an appropriate status code and
 phrase is returned, and the data part of the response is empty.
+
 Note: the peer should print the responses it receives from the server to the standard output in the same format.
