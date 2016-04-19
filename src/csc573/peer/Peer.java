@@ -2,6 +2,7 @@ package csc573.peer;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -27,8 +28,10 @@ public class Peer {
 		path = rfcpath;
 		try {
 			port = (int) (20000+(Math.random()*1000));
-			serverSocket = new ServerSocket(port);
-			hostname = InetAddress.getLocalHost().getHostName();
+			serverSocket = new ServerSocket();
+			serverSocket.bind(new InetSocketAddress(InetAddress.getByName(InetAddress.getLocalHost().getHostAddress()),port));
+			System.out.println("Peer Listening on "+InetAddress.getLocalHost().getHostAddress()+":"+port);
+			hostname = InetAddress.getLocalHost().getHostAddress();
 			os = System.getProperty("os.name");
 			peerSocket = new Socket();
 			new Thread(new PeerConnectionThread(peerSocket,serverHostname,serverPort, path)).start();

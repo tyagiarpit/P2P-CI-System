@@ -5,18 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 import csc573.common.peer.RFC;
 import csc573.common.peer.RFCList;
 import csc573.peer.Peer;
 import csc573.peer.PeerRequestGenerator;
-import csc573.peer.PeerRequestProcessor;
 
 public class PeerConnectionThread implements Runnable {
 	private Socket clientSocket = null;

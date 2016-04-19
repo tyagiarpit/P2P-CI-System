@@ -32,7 +32,7 @@ public class ConnectionThread implements Runnable {
 
 				String request = new String(buffer);
 				
-				System.out.println("\n\n"+request+"\n\n");
+				Logger.info("\n"+request+"\n");
 				
 				String response = null;
 				if(Start.isServer){
@@ -63,7 +63,7 @@ public class ConnectionThread implements Runnable {
 				input.close();
 				output.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
