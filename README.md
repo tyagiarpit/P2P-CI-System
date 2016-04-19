@@ -175,17 +175,17 @@ Port: 5678
 The response message from the server is formatted as follows, where the status code and corresponding phrase are
 the same as defined above.
 
-version <sp> status code <sp> phrase <cr> <lf>
+version &lt;sp&gt; status code &lt;sp&gt; phrase &lt;cr&gt;&lt;lf&gt;
 
-<cr> <lf>
+&lt;cr&gt;&lt;lf&gt;
 
-RFC number <sp> RFC title <sp> hostname <sp> upload port number<cr><lf>
+RFC number &lt;sp&gt; RFC title &lt;sp&gt; hostname &lt;sp&gt; upload port number&lt;cr&gt;&lt;lf&gt;
 
-RFC number <sp> RFC title <sp> hostname <sp> upload port number<cr><lf>
+RFC number &lt;sp&gt; RFC title &lt;sp&gt; hostname &lt;sp&gt; upload port number&lt;cr&gt;&lt;lf&gt;
 
 ...
 
-<cr><lf>
+&lt;cr&gt;&lt;lf&gt;
 
 In other words, the data part of the response lists one RFC per line, along with the information about the host
 containing the RFC. The response to an ADD simply echoes back the information provided by the host:
@@ -200,3 +200,9 @@ line. If the request contains an error or the requested RFC is not found in the 
 phrase is returned, and the data part of the response is empty.
 
 Note: the peer should print the responses it receives from the server to the standard output in the same format.
+
+
+###Instructions to run
+####Compiling
+Source files are availabe in src folder which can be compiled by running javac. Output classes should
+To Run Server 
