@@ -80,26 +80,40 @@ connection to the peer.
 
 The protocol used to download files among peers is a simplified version of the HTTP protocol we discussed in class.
 Suppose that peer A wishes to download RFC 1234 from peer B running at host somehost.csc.ncsu.edu.
-Then, A sends to B a request message formatted as follows, where <sp> denotes “space,” <cr> denotes
-“carriage return,” and <lf> denotes “line feed.”
-method <sp> RFC number <sp> version <cr> <lf>
-header field name <sp> value <cr> <lf>
-header field name <sp> value <cr> <lf>
-<cr> <lf>
+Then, A sends to B a request message formatted as follows, where &lt;sp&gt; denotes “space,” &lt;cr&gt; denotes
+“carriage return,” and &lt;lf&gt; denotes “line feed.”
+
+method &lt;sp&gt; RFC number &lt;sp&gt; version &lt;cr&gt; &lt;lf&gt;
+
+header field name &lt;sp&gt; value &lt;cr&gt; &lt;lf&gt;
+
+header field name &lt;sp&gt; value &lt;cr&gt; &lt;lf&gt;
+&lt;cr&gt; &lt;lf&gt;
+
 There is only one method defined, GET, and only two header fields, Host (the hostname of the peer from which
 the RFC is requested) and OS (the operating system of the requesting host). For instance, a typical request message
 would look like this:
+
 GET RFC 1234 P2P-CI/1.0
+
 Host: somehost.csc.ncsu.edu
+
 OS: Mac OS 10.4.1
 
 The response message is formatted as follows:
-version <sp> status code <sp> phrase <cr> <lf>
-header field name <sp> value <cr> <lf>
-header field name <sp> value <cr> <lf>
+
+version &lt;sp&gt; status code &lt;sp&gt; phrase &lt;cr&gt; &lt;lf&gt;
+
+header field name &lt;sp&gt; value &lt;cr&gt; &lt;lf&gt;
+
+header field name &lt;sp&gt; value &lt;cr&gt; &lt;lf&gt;
+
 ...
-<cr> <lf>
+
+&lt;cr&gt; &lt;lf&gt;
+
 data
+
 Four status codes and corresponding phrases are defined:
 * 200 OK
 * 400 Bad Request
@@ -110,20 +124,33 @@ Five header fields are defined: Date (the date the response was sent), OS (opera
 Last-Modified (the date/time the file was last modified), Content-Length (the length of the file in bytes),
 and Content-Type (always text/plain for this project).
 A typical response message looks like this:
+
 P2P-CI/1.0 200 OK
+
 Date: Wed, 12 Feb 2009 15:12:05 GMT
+
 OS: Mac OS 10.2.1
+
 Last-Modified: Thu, 21 Jan 2001 9:23:46 GMT
+
 Content-Length: 12345
+
 Content-Type: text/text
+
 (data data data ...)
+
 ###Application Layer Protocol: P2S
 The protocol used between a peer and the server is also a request-response protocol, where requests are initiated by
 peers. The format of a request message is as follows:
-method <sp> RFC number <sp> version <cr> <lf>
-header field name <sp> value <cr> <lf>
-header field name <sp> value <cr> <lf>
-<cr> <lf>
+
+method &lt;sp&gt; RFC number &lt;sp&gt; version &lt;cr&gt; &lt;lf&gt;
+
+header field name &lt;sp&gt; value &lt;cr&gt; &lt;lf&gt;
+
+header field name &lt;sp&gt; value &lt;cr&gt; &lt;lf&gt;
+
+&lt;cr&gt; &lt;lf&gt;
+
 There are three methods:
 * ADD, to add a locally available RFC to the server’s index,
 * LOOKUP, to find peers that have the specified RFC, and
@@ -175,17 +202,17 @@ Port: 5678
 The response message from the server is formatted as follows, where the status code and corresponding phrase are
 the same as defined above.
 
-version <sp> status code <sp> phrase <cr> <lf>
+version &lt;sp&gt; status code &lt;sp&gt; phrase &lt;cr&gt;&lt;lf&gt;
 
-<cr> <lf>
+&lt;cr&gt;&lt;lf&gt;
 
-RFC number <sp> RFC title <sp> hostname <sp> upload port number<cr><lf>
+RFC number &lt;sp&gt; RFC title &lt;sp&gt; hostname &lt;sp&gt; upload port number&lt;cr&gt;&lt;lf&gt;
 
-RFC number <sp> RFC title <sp> hostname <sp> upload port number<cr><lf>
+RFC number &lt;sp&gt; RFC title &lt;sp&gt; hostname &lt;sp&gt; upload port number&lt;cr&gt;&lt;lf&gt;
 
 ...
 
-<cr><lf>
+&lt;cr&gt;&lt;lf&gt;
 
 In other words, the data part of the response lists one RFC per line, along with the information about the host
 containing the RFC. The response to an ADD simply echoes back the information provided by the host:
@@ -200,3 +227,23 @@ line. If the request contains an error or the requested RFC is not found in the 
 phrase is returned, and the data part of the response is empty.
 
 Note: the peer should print the responses it receives from the server to the standard output in the same format.
+
+
+###Instructions to run
+####Compiling
+Source files are availabe in src folder which can be compiled by running javac. Output classes should be placed under bin directory.
+Alternatively, Compile.sh can be run to compile the files.
+
+./Compile.sh
+
+before running any of the shell files, use "chmod 744 *.sh" to make these files executable
+
+####Executing
+To Run Server, run following shell script
+
+./Server.sh
+
+To start a peer, run following command
+
+./Client.sh &lt;Server's host name&gt; &lt;Server's port&gt; &lt;RFC Store directory&gt;
+
