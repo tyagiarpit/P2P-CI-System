@@ -14,11 +14,13 @@ public class Start {
 		{
 			Logger.error("Invalid number of arguments");
 			System.out.println(USAGE);
+			System.exit(1);
 		}
 		else if(!args[0].equalsIgnoreCase("peer")&&!args[0].equalsIgnoreCase("server")){
 			Logger.error("Invalid value of argument");
 			Logger.info("Value of argument can be 'Server' or 'Peer'");
 			System.out.println(USAGE);
+			System.exit(1);
 		}
 		else if(args[0].equalsIgnoreCase("server")){
 			Server.start(Properties.SERVER_PORT);
@@ -30,6 +32,7 @@ public class Start {
 			if(args.length<4){
 				Logger.error("Invalid number of arguments");
 				System.out.println(USAGE);
+				System.exit(1);
 			}
 			else{
 				hostname = args[1];
@@ -38,6 +41,7 @@ public class Start {
 					Logger.error("Invalid value of argument");
 					Logger.info("Port should be integer");
 					System.out.println(USAGE);
+					System.exit(1);
 				}
 				path = args[3];
 				File directory = new File(path);
@@ -45,6 +49,7 @@ public class Start {
 					Logger.error("Invalid value of argument");
 					Logger.info("RFC Path doesnot exists");
 					System.out.println(USAGE);
+					System.exit(1);
 				}
 				
 			}

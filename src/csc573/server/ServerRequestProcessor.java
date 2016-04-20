@@ -139,6 +139,7 @@ public class ServerRequestProcessor {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static String processLookupRequest(String[] lines, String[] words){
 		if(words.length!=4)
 			return getErrorResponse(400);

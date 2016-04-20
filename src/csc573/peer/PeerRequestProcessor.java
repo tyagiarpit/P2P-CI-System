@@ -49,6 +49,7 @@ public class PeerRequestProcessor {
 			return Properties.VERSION+" "+errorCode+" "+errorCodeMap.get(errorCode)+"\r\n";
 	}
 	
+	@SuppressWarnings("unused")
 	private static String processGetRequest(String[] lines, String[] words){
 		if(words.length!=4)
 			return getErrorResponse(400);

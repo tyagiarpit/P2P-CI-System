@@ -28,6 +28,7 @@ public class PeerConnectionThread implements Runnable {
 
 	@Override
 	public void run() {
+		Scanner scan = null;
 		InputStream input = null;
 		OutputStream output = null;
 		try {
@@ -51,7 +52,7 @@ public class PeerConnectionThread implements Runnable {
 				Thread.sleep(100);
 			}
 			
-			Scanner scan = new Scanner(System.in);
+			scan = new Scanner(System.in);
 			String request = null;
 			do{
 				System.out.println("1. List All");
@@ -156,6 +157,7 @@ public class PeerConnectionThread implements Runnable {
 		}
 		finally{
 			try {
+				scan.close();
 				input.close();
 				output.close();
 			} catch (IOException e) {
